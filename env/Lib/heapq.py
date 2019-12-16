@@ -468,7 +468,10 @@ def nsmallest(n, iterable, key=None):
     if n == 1:
         it = iter(iterable)
         sentinel = object()
-        result = min(it, default=sentinel, key=key)
+        if key is None:
+            result = min(it, default=sentinel)
+        else:
+            result = min(it, default=sentinel, key=key)
         return [] if result is sentinel else [result]
 
     # When n>=size, it's faster to use sorted()
@@ -495,10 +498,10 @@ def nsmallest(n, iterable, key=None):
         for elem in it:
             if elem < top:
                 _heapreplace(result, (elem, order))
-                top, _order = result[0]
+                top = result[0][0]
                 order += 1
         result.sort()
-        return [elem for (elem, order) in result]
+        return [r[0] for r in result]
 
     # General case, slowest method
     it = iter(iterable)
@@ -513,10 +516,10 @@ def nsmallest(n, iterable, key=None):
         k = key(elem)
         if k < top:
             _heapreplace(result, (k, order, elem))
-            top, _order, _elem = result[0]
+            top = result[0][0]
             order += 1
     result.sort()
-    return [elem for (k, order, elem) in result]
+    return [r[2] for r in result]
 
 def nlargest(n, iterable, key=None):
     """Find the n largest elements in a dataset.
@@ -528,7 +531,10 @@ def nlargest(n, iterable, key=None):
     if n == 1:
         it = iter(iterable)
         sentinel = object()
-        result = max(it, default=sentinel, key=key)
+        if key is None:
+            result = max(it, default=sentinel)
+        else:
+            result = max(it, default=sentinel, key=key)
         return [] if result is sentinel else [result]
 
     # When n>=size, it's faster to use sorted()
@@ -553,10 +559,10 @@ def nlargest(n, iterable, key=None):
         for elem in it:
             if top < elem:
                 _heapreplace(result, (elem, order))
-                top, _order = result[0]
+                top = result[0][0]
                 order -= 1
         result.sort(reverse=True)
-        return [elem for (elem, order) in result]
+        return [r[0] for r in result]
 
     # General case, slowest method
     it = iter(iterable)
@@ -571,10 +577,10 @@ def nlargest(n, iterable, key=None):
         k = key(elem)
         if top < k:
             _heapreplace(result, (k, order, elem))
-            top, _order, _elem = result[0]
+            top = result[0][0]
             order -= 1
     result.sort(reverse=True)
-    return [elem for (k, order, elem) in result]
+    return [r[2] for r in result]
 
 # If available, use C implementation
 try:
@@ -597,5 +603,5 @@ except ImportError:
 
 if __name__ == "__main__":
 
-    import doctest # pragma: no cover
-    print(doctest.testmod()) # pragma: no cover
+    import doctest
+    print(doctest.testmod())

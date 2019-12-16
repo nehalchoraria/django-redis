@@ -1,6 +1,5 @@
 @echo off
-
-set "VIRTUAL_ENV=C:\Users\synor\Desktop\NEWFOL~2\env"
+set "VIRTUAL_ENV=C:\Users\Nehal\Desktop\NE840F~1\DJANGO~1\env"
 
 if defined _OLD_VIRTUAL_PROMPT (
     set "PROMPT=%_OLD_VIRTUAL_PROMPT%"
@@ -8,13 +7,9 @@ if defined _OLD_VIRTUAL_PROMPT (
     if not defined PROMPT (
         set "PROMPT=$P$G"
     )
-    if not defined VIRTUAL_ENV_DISABLE_PROMPT (
-        set "_OLD_VIRTUAL_PROMPT=%PROMPT%"
-    )
+    set "_OLD_VIRTUAL_PROMPT=%PROMPT%"
 )
-if not defined VIRTUAL_ENV_DISABLE_PROMPT (
-    set "PROMPT=(env) %PROMPT%"
-)
+set "PROMPT=(env) %PROMPT%"
 
 REM Don't use () to avoid problems with them in %PATH%
 if defined _OLD_VIRTUAL_PYTHONHOME goto ENDIFVHOME

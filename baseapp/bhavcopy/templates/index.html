@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{% static 'bhavcopy/style.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+    <h1 class="text">Stocks List</h1>
+    {% if "error" in results %}
+    <p>{{results.error}}</p>
+    {% else %}
+    <input type="text" id="search" placeholder="live search"></input>
+    <table class = "table">
+        <thead>
+        <tr>
+            <th>SC_CODE</th>
+            <th>SC_NAME</th>
+            <th>OPEN</th>
+            <th>HIGH</th>
+            <th>LOW</th>
+            <th>CLOSE</th>
+            <th>LAST</th>
+            <th>PREVCLOSE</th>
+            <th>NO_TRADES</th>
+        </tr>
+        </thead>
+        {% for stock in results %}
+        <tr>
+            <td>{{stock.SC_CODE}}</td>
+            <td>{{stock.SC_NAME}}</td>
+            <td>{{stock.OPEN}}</td>
+            <td>{{stock.HIGH}}</td>
+            <td>{{stock.LOW}}</td>
+            <td>{{stock.CLOSE}}</td>
+            <td>{{stock.LAST}}</td>
+            <td>{{stock.PREVCLOSE}}</td>
+            <td>{{stock.NO_TRADES}}</td>
+        </tr>
+        {% endfor %}
+      </table>
+      {% endif %}
+
+    <script>
+        $("#search").on("keyup", function() {
+        var value = $(this).val();
+
+        $("table tr").each(function(index) {
+        if (index !== 0) {
+
+            $row = $(this);
+
+            var id = $row.find("td:first").text();
+
+            if (id.indexOf(value) !== 0) {
+                $row.hide();
+            }
+            else {
+                $row.show();
+            }
+        }
+        });
+        });
+    </script>
+
+</body>
+</html>
