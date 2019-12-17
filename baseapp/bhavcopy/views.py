@@ -7,7 +7,7 @@ import pandas,json
 from django.shortcuts import render
 from datetime import datetime as date
 
-day = str(int(date.now().strftime('%d')))
+day = str(date.now().strftime('%d'))
 month = date.now().strftime('%m')
 year = date.now().strftime('%y')
 bhavCopyLink = 'https://www.bseindia.com/download/BhavCopy/Equity/EQ'+day+month+year+'_CSV.ZIP' 
