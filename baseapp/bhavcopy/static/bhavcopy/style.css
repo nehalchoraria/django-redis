@@ -2,11 +2,17 @@
     font-family: sans-serif;
     margin: auto;
     text-align: center;
+    background-color: black;
   }
 
   .text {
     padding: 30px;
   }
+
+ input.inputstyle {
+    border-radius: 10px;
+    width: 100%;
+}
   
   .table {
     margin: auto;
@@ -48,6 +54,5 @@
     color: #009879;
   }
   
-  * {
-  font-family: sans-serif; /* Change your font family */
-}
+
+

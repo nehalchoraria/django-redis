@@ -12,11 +12,12 @@ month = date.now().strftime('%m')
 year = date.now().strftime('%y')
 bhavCopyLink = 'https://www.bseindia.com/download/BhavCopy/Equity/EQ'+day+month+year+'_CSV.ZIP' 
 CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
+headingList = ['SC_CODE','SC_NAME','OPEN','HIGH','LOW','CLOSE','LAST','PREVCLOSE','NO_TRADES']
 
 def stockviewcache(request):
     if 'stocks' in cache:
         stocks = cache.get('stocks')
-        return render(request, 'index.html',  {'results': stocks } )
+        return render(request, 'index.html',  {'results': stocks,'headingList':headingList } )
     else:
         try:
             xls_to_json(bhavCopyLink)
@@ -24,4 +25,4 @@ def stockviewcache(request):
             return render(request, 'index.html',  {'results': { 'error' : 'File not available for today.'} } )
         results = [ stock for stock in json.load(open("dump.json","r")) ]
         cache.set('stocks', results, timeout=CACHE_TTL)
-        return render(request, 'index.html',  {'results': results } )
+        return render(request, 'index.html',  {'results': results, 'headingList':headingList} )

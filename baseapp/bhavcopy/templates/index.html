@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-     {% load static %}
+    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -9,25 +10,21 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
+
 <body>
     <h1 class="text">Stocks List</h1>
     {% if "error" in results %}
     <p>{{results.error}}</p>
     {% else %}
-    <input type="text" id="search" placeholder="live search"></input>
-    <table class = "table">
+    <table class="table">
         <thead>
-        <tr>
-            <th>SC_CODE</th>
-            <th>SC_NAME</th>
-            <th>OPEN</th>
-            <th>HIGH</th>
-            <th>LOW</th>
-            <th>CLOSE</th>
-            <th>LAST</th>
-            <th>PREVCLOSE</th>
-            <th>NO_TRADES</th>
-        </tr>
+            <tr>
+                {% for heading in headingList %}
+                <th>{{heading}}<br /><input class="inputstyle" type="text" id={{heading}} placeholder="Search"
+                        onkeyup="searchList('{{heading}}')">
+                </th>
+                {% endfor %}
+            </tr>
         </thead>
         {% for stock in results %}
         <tr>
@@ -42,30 +39,30 @@
             <td>{{stock.NO_TRADES}}</td>
         </tr>
         {% endfor %}
-      </table>
-      {% endif %}
+    </table>
+    {% endif %}
 
     <script>
-        $("#search").on("keyup", function() {
-        var value = $(this).val();
+        function searchList(id) {
+            var value = $(this).val();
+            alert(value)
+            $("table tr").each(function (index) {
+                alert('index', index)
+                if (index !== 0) {
+                    $row = $(this);
+                    var id = $row.find("td:first").text();
+                    if (id.indexOf(value) !== 0) {
+                        $row.hide();
+                    }
+                    else {
+                        $row.show();
+                    }
+                }
 
-        $("table tr").each(function(index) {
-        if (index !== 0) {
-
-            $row = $(this);
-
-            var id = $row.find("td:first").text();
-
-            if (id.indexOf(value) !== 0) {
-                $row.hide();
-            }
-            else {
-                $row.show();
-            }
+            });
         }
-        });
-        });
     </script>
 
 </body>
+
 </html>
