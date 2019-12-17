@@ -7,22 +7,22 @@ import pandas,json
 from django.shortcuts import render
 from datetime import datetime as date
 
-day = str(int(date.now().strftime('%d'))-5)
+day = str(int(date.now().strftime('%d')))
 month = date.now().strftime('%m')
 year = date.now().strftime('%y')
 bhavCopyLink = 'https://www.bseindia.com/download/BhavCopy/Equity/EQ'+day+month+year+'_CSV.ZIP' 
 CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
-headingList = ['SC_CODE','SC_NAME','OPEN','HIGH','LOW','CLOSE','LAST','PREVCLOSE','NO_TRADES']
+headingList = ['SC_CODE','SC_NAME','OPEN','HIGH','LOW','CLOSE','LAST','PREVCLOSE','NO_TRADES','PERCENTAGE CHANGE']
 
 def stockviewcache(request):
     if 'stocks' in cache:
         stocks = cache.get('stocks')
-        return render(request, 'index.html',  {'results': stocks,'headingList':headingList } )
+        return render(request, 'index.html',  {'results': stocks[:10],'headingList':headingList } )
     else:
         try:
             xls_to_json(bhavCopyLink)
         except:
             return render(request, 'index.html',  {'results': { 'error' : 'File not available for today.'} } )
         results = [ stock for stock in json.load(open("dump.json","r")) ]
-        cache.set('stocks', results, timeout=CACHE_TTL)
-        return render(request, 'index.html',  {'results': results, 'headingList':headingList} )
+        cache.set('stocks', results, timeout=60*60*12) # 12 hours
+        return render(request, 'index.html',  {'results': results[:10], 'headingList':headingList} )

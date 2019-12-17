@@ -2,7 +2,6 @@
     font-family: sans-serif;
     margin: auto;
     text-align: center;
-    background-color: black;
   }
 
   .text {
@@ -11,13 +10,15 @@
 
  input.inputstyle {
     border-radius: 10px;
-    width: 100%;
+    font-size: 13px;
+    padding: 6px 0 6px 0;
+    margin: 8px 0 8px 0;
 }
   
   .table {
     margin: auto;
     border-collapse: collapse;
-    font-size: 0.9em;
+    width: 80%;
     min-width: 400px;
     border-radius: 5px 5px 0 0;
     overflow: hidden;
@@ -33,8 +34,8 @@
   
   .table th,
   .table td {
-    padding: 12px 15px;
-    text-align: left
+    padding: 10px 5px;
+    text-align: center
   }
   
   .table tbody tr {

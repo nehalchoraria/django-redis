@@ -16,13 +16,14 @@
     {% if "error" in results %}
     <p>{{results.error}}</p>
     {% else %}
+    Seach Name :
+    <input class="inputstyle" type="text" id={{heading}} placeholder="Search"
+                    oninput="searchList()">
     <table class="table">
         <thead>
             <tr>
                 {% for heading in headingList %}
-                <th>{{heading}}<br /><input class="inputstyle" type="text" id={{heading}} placeholder="Search"
-                        onkeyup="searchList('{{heading}}')">
-                </th>
+                <th>{{heading}}</th>
                 {% endfor %}
             </tr>
         </thead>
@@ -37,21 +38,20 @@
             <td>{{stock.LAST}}</td>
             <td>{{stock.PREVCLOSE}}</td>
             <td>{{stock.NO_TRADES}}</td>
+            <td>{{stock.PERCENTAGE}}</td>
         </tr>
         {% endfor %}
     </table>
     {% endif %}
 
     <script>
-        function searchList(id) {
-            var value = $(this).val();
-            alert(value)
+        function searchList() {
+            var value = window.event.target.value.toLowerCase()
             $("table tr").each(function (index) {
-                alert('index', index)
                 if (index !== 0) {
                     $row = $(this);
-                    var id = $row.find("td:first").text();
-                    if (id.indexOf(value) !== 0) {
+                    var rowValue = $row.find("td:nth-child(2)").text().toLowerCase();
+                    if (rowValue.indexOf(value) !== 0) {
                         $row.hide();
                     }
                     else {
